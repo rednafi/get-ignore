@@ -47,14 +47,14 @@ func MakeCli() {
 	// Make the CLI with Go's cli library
 	app := &cli.App{
 		Name:  "getignore",
-		Usage: "Download Gitignore Files",
+		Usage: "A Pointless CLI to Download Gitignore Files 📥",
 		Flags: []cli.Flag{
 
 			// Create flags that take arguments
 			&cli.StringFlag{
 				Name:        "languages",
 				Aliases:     []string{"lg"},
-				Usage:       "Provide the desired languages 🏹",
+				Usage:       "Provide the desired languages 🔥",
 				Destination: &languages,
 			},
 
@@ -62,7 +62,7 @@ func MakeCli() {
 			&cli.BoolFlag{
 				Name: "list",
 				Aliases: []string{"ls"},
-				Usage: "Show a list of the available languages 📝"},
+				Usage: "Show a list of available languages 📝"},
 		},
 
 		Action: func(c *cli.Context) error {
