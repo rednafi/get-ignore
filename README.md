@@ -8,6 +8,11 @@
 
 </div>
 
+
+## Description
+
+This downloads `.gitignore` of the language(s) provided by the user. In case of multiple languages, the contents of their corresponding `.gitignore` files will compiled in a single `.gitignore` file. 
+
 ## Installation
 
 If you have `go` installed in your system, then run:
@@ -15,5 +20,3 @@ If you have `go` installed in your system, then run:
 ```bash
 go get github.com/rednafi/get-ignore/getignore
 ```
-
-Or you can manually download the binary to your
