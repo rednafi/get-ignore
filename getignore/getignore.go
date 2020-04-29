@@ -43,6 +43,7 @@ func MakeCli() {
 	langList := langs.GetLangs()
 	langMap := URLMap(langList)
 
+	// Making the CLI with Go's cli library
 	app := &cli.App{
 		Name:  "getignore",
 		Usage: "Download Gitignore Files",
@@ -57,6 +58,8 @@ func MakeCli() {
 		},
 
 		Action: func(c *cli.Context) error {
+
+			// Printing help when there is no argument
 			if c.NArg() == 0 {
 				base := "getignore"
 				arg0 := "-h"
@@ -71,18 +74,19 @@ func MakeCli() {
 				os.Exit(0)
 			}
 
+			// Making flag for providing the desired languages
 			if os.Args[1] == "--lg" || os.Args[1] == "--languages" {
 				for _, lang := range os.Args[2:] {
 					langURL := SelectLang(langMap, lang)
 					if langURL != "" {
 						utils.DownloadFile(langURL, "./.gitignore")
 						fmt.Printf("Downloading %s gitignore\n", strings.Title(lang))
-
 					}
 					cli.Exit("", 0)
 				}
 			}
 
+			// Listing all the supported languages
 			if os.Args[1] == "--ls" || os.Args[1] == "--list" {
 				fmt.Println("Language List")
 				fmt.Println("===============")
@@ -104,5 +108,4 @@ func MakeCli() {
 
 func main() {
 	MakeCli()
-
 }
