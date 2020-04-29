@@ -58,6 +58,7 @@ func DownloadIfNotExists(url, filepath string) error {
 		os.Exit(1)
 	}
 
+	// Create new gitignore in case it doesn't exist'
 	out, err := os.Create(filepath)
 	if err != nil {
 		return err

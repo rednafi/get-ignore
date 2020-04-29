@@ -7,7 +7,7 @@ import (
 	"github.com/urfave/cli/v2" // imports as package "cli"
 	"log"
 	"os"
-	//"os/exec"
+
 	"strings"
 )
 
@@ -16,8 +16,8 @@ func URLMap(langList []string) map[string]string {
 	var langMap map[string]string
 	langMap = make(map[string]string)
 
+	// Split the url into two different parts
 	p1 := "https://raw.githubusercontent.com/"
-
 	for _, lang := range langList {
 		p2 := fmt.Sprintf("github/gitignore/master/%s.gitignore", lang)
 		url := p1 + p2
@@ -32,7 +32,8 @@ func SelectLang(langMap map[string]string, lang string) string {
 	lang = strings.Title(lang)
 	langURL := langMap[lang]
 	if langURL == "" {
-		fmt.Printf("Gitignore for %s not found\n", lang)
+		fmt.Printf("Gitignore for %s not found 💔\n", lang)
+		os.Exit(0)
 	}
 	return langURL
 }
@@ -43,24 +44,30 @@ func MakeCli() {
 	langList := langs.GetLangs()
 	langMap := URLMap(langList)
 
-	// Making the CLI with Go's cli library
+	// Make the CLI with Go's cli library
 	app := &cli.App{
 		Name:  "getignore",
 		Usage: "Download Gitignore Files",
 		Flags: []cli.Flag{
+
+			// Create flags that take arguments
 			&cli.StringFlag{
 				Name:        "languages",
 				Aliases:     []string{"lg"},
-				Usage:       "Provide the desired list of languages",
+				Usage:       "Provide the desired languages 🏹",
 				Destination: &languages,
 			},
-			&cli.BoolFlag{Name: "list", Aliases: []string{"ls"}},
+
+			// Create flags that don't take any argument
+			&cli.BoolFlag{
+				Name: "list",
+				Aliases: []string{"ls"},
+				Usage: "Show a list of the available languages 📝"},
 		},
 
 		Action: func(c *cli.Context) error {
-
 			if len(os.Args) == 1 {
-				fmt.Println("Type 'getignore -h' for options")
+				fmt.Println("Type 'getignore -h' to see the options💡")
 				os.Exit(0)
 			}
 
@@ -69,14 +76,15 @@ func MakeCli() {
 					langURL := SelectLang(langMap, lang)
 					if langURL != "" {
 						utils.DownloadFile(langURL, "./.gitignore")
-						fmt.Printf("Downloading %s gitignore\n", strings.Title(lang))
+						fmt.Printf("Downloading %s gitignore 🌧️\n", strings.Title(lang))
 					}
-					cli.Exit("", 0)
 				}
+				fmt.Println("Download complete 🍰")
+				cli.Exit("", 0)
 
 			}
 			if os.Args[1] == "--ls" || os.Args[1] == "--list" {
-				fmt.Println("Language List")
+				fmt.Println("Language List 📝")
 				fmt.Println("===============")
 
 				for _, lang := range langList {
