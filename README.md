@@ -7,3 +7,6 @@
 ![title](https://github.com/rednafi/get-ignore/blob/master/art/Screenshot%20from%202020-04-29%2016-28-23.png)
 
 </div>
+
+## Installation
+

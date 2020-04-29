@@ -2,8 +2,8 @@ package main
 
 import (
 	"fmt"
-	"getIgnore/getignore/langs"
-	"getIgnore/getignore/utils"
+	"get-ignore/getignore/langs"
+	"get-ignore/getignore/utils"
 	"github.com/urfave/cli/v2" // imports as package "cli"
 	"log"
 	"os"
