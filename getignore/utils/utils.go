@@ -19,7 +19,16 @@ func FileExists(filename string) bool {
 }
 
 // DownloadIfExists appends content when .gitignore exists
-func DownloadIfExists(resp *http.Response, filepath string) error {
+func DownloadIfExists(url, filepath string) error {
+
+	// Get the data via HTTP request
+	resp, err := http.Get(url)
+	if err != nil {
+		fmt.Println("Http Error: Cannot Download .gitignore File")
+		log.Fatal(err)
+		os.Exit(1)
+	}
+
 	// Read response
 	body, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
@@ -40,7 +49,14 @@ func DownloadIfExists(resp *http.Response, filepath string) error {
 }
 
 // DownloadIfNotExists downloads contents to a new .gitignore file
-func DownloadIfNotExists(resp *http.Response, filepath string) error {
+func DownloadIfNotExists(url, filepath string) error {
+
+	// Get the data via HTTP request
+	resp, err := http.Get(url)
+	if err != nil {
+		fmt.Println("Http Error: Cannot Download .gitignore File")
+		os.Exit(1)
+	}
 
 	out, err := os.Create(filepath)
 	if err != nil {
@@ -56,17 +72,9 @@ func DownloadIfNotExists(resp *http.Response, filepath string) error {
 // DownloadFile from url
 func DownloadFile(url string, filepath string) {
 
-	// Get the data via HTTP request
-	resp, err := http.Get(url)
-	if err != nil {
-		fmt.Println("Http Error: Cannot Download .gitignore File")
-		log.Fatal(err)
-		os.Exit(1)
-	}
-
 	// Create the file if it doesn't exist
 	if FileExists(filepath) {
-		err := DownloadIfExists(resp, filepath)
+		err := DownloadIfExists(url, filepath)
 		if err != nil {
 			fmt.Println("Append Error: Cannot Append Content to .gitignore File")
 			os.Exit(1)
@@ -74,7 +82,7 @@ func DownloadFile(url string, filepath string) {
 
 	} else {
 		// Append to previous .gitignore when it already exists
-		err := DownloadIfNotExists(resp, filepath)
+		err := DownloadIfNotExists(url, filepath)
 		if err != nil {
 			fmt.Println("Add Error: Cannot Add Content to .gitignore File")
 			os.Exit(1)
