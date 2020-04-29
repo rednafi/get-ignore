@@ -7,7 +7,7 @@ import (
 	"github.com/urfave/cli/v2" // imports as package "cli"
 	"log"
 	"os"
-	"os/exec"
+	//"os/exec"
 	"strings"
 )
 
@@ -59,22 +59,11 @@ func MakeCli() {
 
 		Action: func(c *cli.Context) error {
 
-			// Printing help when there is no argument
-			if c.NArg() == 0 {
-				base := "getignore"
-				arg0 := "-h"
-
-				cmd := exec.Command(base, arg0)
-				stdout, err := cmd.Output()
-				if err != nil {
-					fmt.Println(err.Error())
-					return err
-				}
-				fmt.Print(string(stdout))
+			if len(os.Args) == 1 {
+				fmt.Println("Type 'getignore -h' for options")
 				os.Exit(0)
 			}
 
-			// Making flag for providing the desired languages
 			if os.Args[1] == "--lg" || os.Args[1] == "--languages" {
 				for _, lang := range os.Args[2:] {
 					langURL := SelectLang(langMap, lang)
@@ -84,17 +73,17 @@ func MakeCli() {
 					}
 					cli.Exit("", 0)
 				}
-			}
 
-			// Listing all the supported languages
+			}
 			if os.Args[1] == "--ls" || os.Args[1] == "--list" {
 				fmt.Println("Language List")
 				fmt.Println("===============")
 
 				for _, lang := range langList {
 					fmt.Println(lang)
-					cli.Exit("", 0)
 				}
+				cli.Exit("", 0)
+
 			}
 			return nil
 		},

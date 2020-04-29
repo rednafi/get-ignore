@@ -4,9 +4,9 @@ import (
 	"fmt"
 	"io"
 	"io/ioutil"
+	"log"
 	"net/http"
 	"os"
-	"log"
 )
 
 // FileExists checks if a file exists and is not a directory
@@ -26,14 +26,14 @@ func DownloadIfExists(resp *http.Response, filepath string) error {
 		return err
 	}
 
-	// Open File
+	// Open file
 	f, err := os.OpenFile(filepath, os.O_WRONLY|os.O_APPEND, 0644)
 	if err != nil {
 		return err
 	}
 	defer f.Close()
 
-	// Write File
+	// Write file
 	_, err = f.WriteString(string(body))
 	return err
 
