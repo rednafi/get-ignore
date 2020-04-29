@@ -1,4 +1,4 @@
-module get-ignore
+module github.com/rednafi/get-ignore
 
 go 1.14
 
