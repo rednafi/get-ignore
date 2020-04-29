@@ -10,3 +10,8 @@
 
 ## Installation
 
+If you have `go` installed in your system, then run:
+
+```bash
+go get github.com/rednafi/get-ignore/getignore
+```
