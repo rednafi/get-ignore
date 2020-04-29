@@ -76,7 +76,4 @@ func MakeCli() {
 func main() {
 	MakeCli()
 
-	// url := "https://raw.githubusercontent.com/github/gitignore/master/Python.gitignore"
-	// utils.DownloadFile(url, "./.gitignore")
-
 }
