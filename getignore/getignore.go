@@ -7,6 +7,7 @@ import (
 	"github.com/urfave/cli/v2" // imports as package "cli"
 	"log"
 	"os"
+	"os/exec"
 	"strings"
 )
 
@@ -31,8 +32,7 @@ func SelectLang(langMap map[string]string, lang string) string {
 	lang = strings.Title(lang)
 	langURL := langMap[lang]
 	if langURL == "" {
-		fmt.Printf("Gitignore for %s not found.\n", lang)
-		os.Exit(1)
+		fmt.Printf("Gitignore for %s not found\n", lang)
 	}
 	return langURL
 }
@@ -50,17 +50,46 @@ func MakeCli() {
 			&cli.StringFlag{
 				Name:        "languages",
 				Aliases:     []string{"lg"},
-				Usage:       "Prints the names of the supported languages",
+				Usage:       "Provide the desired list of languages",
 				Destination: &languages,
 			},
+			&cli.BoolFlag{Name: "list", Aliases: []string{"ls"}},
 		},
+
 		Action: func(c *cli.Context) error {
+			if c.NArg() == 0 {
+				base := "getignore"
+				arg0 := "-h"
+
+				cmd := exec.Command(base, arg0)
+				stdout, err := cmd.Output()
+				if err != nil {
+					fmt.Println(err.Error())
+					return err
+				}
+				fmt.Print(string(stdout))
+				os.Exit(0)
+			}
+
 			if os.Args[1] == "--lg" || os.Args[1] == "--languages" {
 				for _, lang := range os.Args[2:] {
 					langURL := SelectLang(langMap, lang)
-					fmt.Printf("Downloading %s gitignore\n", lang)
-					utils.DownloadFile(langURL, "./.gitignore")
+					if langURL != "" {
+						utils.DownloadFile(langURL, "./.gitignore")
+						fmt.Printf("Downloading %s gitignore\n", strings.Title(lang))
 
+					}
+					cli.Exit("", 0)
+				}
+			}
+
+			if os.Args[1] == "--ls" || os.Args[1] == "--list" {
+				fmt.Println("Language List")
+				fmt.Println("===============")
+
+				for _, lang := range langList {
+					fmt.Println(lang)
+					cli.Exit("", 0)
 				}
 			}
 			return nil
