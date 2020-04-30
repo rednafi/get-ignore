@@ -19,7 +19,7 @@ getignore --languages Python
 or,
 
 ```bash
-getignore -languages Python Go Nim
+getignore --languages Python Go Nim
 ```
 
 In case of multiple languages, the contents of their corresponding `.gitignore` files will be appended to a single `.gitignore` file.
